@@ -1,0 +1,13 @@
+fuzz-zephyr:
+  build_option:
+    pre_command:
+      "*clang*":
+        - arg_add: -DCONFIG_ASAN=1
+        - arg_add: -DCONFIG_ASAN_RECOVER=1
+  language: c
+  steps:
+  - run: rm -rf build
+  - run: cmake -S . -B build -DBOARD=native_posix_64
+  - run: cmake --build build -- VERBOSE=1
+  clean:
+  - run: rm -rf build
